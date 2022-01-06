@@ -14,15 +14,13 @@ from PIL import Image
 image = Image.open('logo.jpg')
 st.image(image, use_column_width =True)
 
-'''
-@st.cache()
-def load_model( params ):
-    return BertForQuestionAnswering.from_pretrained( params )
+@st.cache(ttl = 3600)
+def load_model( ):
+    return BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
 
-@st.cache()
-def load_tokenizer( params ):
-    return BertTokenizer.from_pretrained(params)
-'''
+@st.cache(ttl = 3600)
+def load_tokenizer( ):
+    return BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
    
 def scrape_data(product_url):
     # scrape data
@@ -105,8 +103,8 @@ def scrape_data(product_url):
     return details
 
 def qna_bert(context, question):
-    model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-    tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+    model = load_model()
+    tokenizer = load_tokenizer()
         
     # model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
     # tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
